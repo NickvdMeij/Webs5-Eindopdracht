@@ -1,0 +1,15 @@
+{
+  "name": "eindopdracht_webs5",
+  "version": "0.0.1",
+  "dependencies": {
+    "angular": "~1.2.1",
+    "jquery": "~1.10.2",
+    "bootstrap": "~3.0.0",
+    "angular-resource": "~1.2.0",
+    "angular-cookies": "~1.2.0",
+    "angular-sanitize": "~1.2.0",
+    "angular-route": "~1.2.0",
+    "angular-http-auth": "*",
+    "angular-bootstrap": "~0.7.0"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "name": "eindopdrachtwebs5",
+  "private": true,
+  "version": "0.0.1",
+  "dependencies": {
+    "express": "~3.4.3",
+    "passport": "~0.1.15",
+    "passport-local": "~0.1.6",
+    "mongoose": "~3.5.5",
+    "ejs": "~0.8.4",
+    "underscore": "~1.5.2",
+    "connect-mongo": "~0.4.0"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  }
+}
