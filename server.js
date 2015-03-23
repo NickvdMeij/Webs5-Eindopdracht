@@ -39,7 +39,7 @@ app.use(express.methodOverride());
 
 // express/mongo session storage
 app.use(express.session({
-  secret: 'webs5 eindopdracht',
+  secret: 'webs5eindopdracht',
   store: new mongoStore({
     url: config.db,
     collection: 'sessions'
