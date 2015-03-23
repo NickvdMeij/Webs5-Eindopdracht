@@ -1,1 +1,1 @@
-web: bower install && npm install && node server.js
+web: npm install -g bower && npm install && bower install && node server.js
