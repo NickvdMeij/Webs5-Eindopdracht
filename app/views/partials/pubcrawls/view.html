@@ -1,0 +1,7 @@
+<div class="well">
+	<section ng-init="findOne()">
+	    <h2>{{pubcrawl.title}} <a class="pull-right" ng-show="currentUser._id == pubcrawl.creator._id" href="/pubcrawls/{{pubcrawl._id}}/edit">Edit</a></h2>
+	    <p>{{pubcrawl.description}}</p>
+	    <p>{{pubcrawl.starts}}</p>
+	</section>
+</div>

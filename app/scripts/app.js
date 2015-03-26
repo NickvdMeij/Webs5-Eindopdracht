@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('angularPassportApp', [
+angular.module('pubcrawlApp', [
   'ngCookies',
   'ngResource',
   'ngSanitize',
@@ -11,24 +11,25 @@ angular.module('angularPassportApp', [
   .config(function ($routeProvider, $locationProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'partials/main.html',
-        controller: 'MainCtrl'
+        templateUrl: 'partials/pubcrawls/list.html',
+        controller: 'PubCrawlsCtrl'
       })
-      .when('/blogs', {
-        templateUrl: 'partials/blogs/list.html',
-        controller: 'BlogsCtrl'
+      .when('/pubcrawls', {
+        templateUrl: 'partials/pubcrawls/list.html',
+        controller: 'PubCrawlsCtrl'
       })
-      .when('/blogs/create', {
-        templateUrl: 'partials/blogs/create.html',
-        controller: 'BlogsCtrl'
+      .when('/pubcrawls/create', {
+        templateUrl: 'partials/pubcrawls/create.html',
+        controller: 'PubCrawlsCtrl'
       })
-      .when('/blogs/:blogId/edit', {
-        templateUrl: 'partials/blogs/edit.html',
-        controller: 'BlogsCtrl'
+      .when('/pubcrawls/:pubcrawlId/edit', {
+        templateUrl: 'partials/pubcrawls/edit.html',
+        controller: 'PubCrawlsCtrl',
+        authenticate: true
       })
-      .when('/blogs/:blogId', {
-        templateUrl: 'partials/blogs/view.html',
-        controller: 'BlogsCtrl'
+      .when('/pubcrawls/:pubcrawlId', {
+        templateUrl: 'partials/pubcrawls/view.html',
+        controller: 'PubCrawlsCtrl'
       })
       .when('/login', {
         templateUrl: 'partials/login.html',
@@ -42,6 +43,16 @@ angular.module('angularPassportApp', [
         redirectTo: '/'
       });
     $locationProvider.html5Mode(true);
+  })
+  .config(['$httpProvider', function($httpProvider) {
+    $httpProvider.defaults.useXDomain = true;
+    delete $httpProvider.defaults.headers.common['X-Requested-With'];
+  }])
+
+  .run(function($http){
+    $http.defaults.headers.common["Access-Control-Allow-Headers"] = 'Content-Type, Authorization, X-Requested-With';
+    $http.defaults.headers.common["Access-Control-Allow-Methods"] = 'OPTIONS,GET,POST,PUT,DELETE';
+    $http.defaults.headers.common["Access-Control-Allow-Origin"] = '*';
   })
 
   .run(function ($rootScope, $location, Auth) {

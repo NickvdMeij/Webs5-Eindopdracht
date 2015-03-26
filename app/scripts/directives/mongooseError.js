@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('angularPassportApp')
+angular.module('pubcrawlApp')
 /**
  * Removes server error when user updates input
  */

@@ -1,15 +1,11 @@
 'use strict';
 
-angular.module('angularPassportApp')
+angular.module('pubcrawlApp')
   .controller('NavbarCtrl', function ($scope, Auth, $location) {
-    $scope.menu = [{
-      "title": "Blogs",
-      "link": "blogs"
-    }];
 
     $scope.authMenu = [{
-      "title": "Create New Blog",
-      "link": "blogs/create"
+      "title": "Create New Pubcrawl",
+      "link": "pubcrawls/create"
     }];
 
     $scope.logout = function() {

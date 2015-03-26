@@ -1,5 +1,5 @@
 'use strict';
 
-angular.module('angularPassportApp')
+angular.module('pubcrawlApp')
   .controller('MainCtrl', function ($scope) {
   });

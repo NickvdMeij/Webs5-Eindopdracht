@@ -1,0 +1,13 @@
+<h1>Pubcrawls <small>Participate in pubcrawls all over The Netherlands!</small></h1>
+<section ng-init="find()">
+    <a ng-href="pubcrawls/{{pubcrawl._id}}" ng-repeat="pubcrawl in pubcrawls">
+        <div class="well">
+            <h2>Title: {{pubcrawl.title}}</h2>
+            <p>Description: {{pubcrawl.description}}</p>
+            <p>Starts at: {{pubcrawl.description}}</p>
+            <span class="badge badge-success">Posted {{pubcrawl.created | date:'medium'}}</span>
+            <div class="pull-right"><span class="badge badge-success">Posted by {{pubcrawl.creator.username}}</span></div>
+        </div>
+    </a>
+    <h1 ng-hide="!pubcrawls || pubcrawls.length">No pubcrawls yet.</h1>
+</section>
