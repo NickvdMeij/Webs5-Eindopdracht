@@ -1,7 +1,21 @@
 'use strict';
 
 angular.module('pubcrawlApp')
-  .controller('PubCrawlsCtrl', function ($scope, PubCrawls, $location, $routeParams, $rootScope, $http) {
+  .controller('PubCrawlsCtrl', function ($scope, PubCrawls, $location, ngGPlacesAPI, $routeParams, $rootScope, $http) {
+
+    var array = [];
+    $scope.test = function(waypoint){
+      var i = array.indexOf(waypoint);
+      console.log(i);
+      if (i != -1) {
+        array.splice(i, 1)
+      }else{
+        array.push(waypoint);
+      }
+
+      console.log(array);
+    };
+
 
     $scope.searchGoogle = function(){
       var city = null;
@@ -10,13 +24,11 @@ angular.module('pubcrawlApp')
           city = $scope.places[x];
         }
       }
-
-      $http.get("https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=AIzaSyB9SyEDDzlK6shcKcnbPUx-C63um6LrtBE&location=" + city.latitude + "," + city.longitude + "&radius=2500&type=cafe")
-      .success(function(data, status, headers, config){
-        console.log(data);
-      })
-      .failure(function(data, status, headers, config){
-        console.log(data);
+      ngGPlacesAPI.nearbySearch({
+        latitude: city.latitude,
+        longitude: city.longitude
+      }).then(function(data){
+        $scope.allWaypoints = data;
       });
     }
 

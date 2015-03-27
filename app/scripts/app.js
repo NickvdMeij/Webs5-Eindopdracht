@@ -6,7 +6,8 @@ angular.module('pubcrawlApp', [
   'ngSanitize',
   'ngRoute',
   'http-auth-interceptor',
-  'ui.bootstrap'
+  'ui.bootstrap',
+  'ngGPlaces'
 ])
   .config(function ($routeProvider, $locationProvider) {
     $routeProvider
@@ -44,15 +45,11 @@ angular.module('pubcrawlApp', [
       });
     $locationProvider.html5Mode(true);
   })
-  .config(['$httpProvider', function($httpProvider) {
-    $httpProvider.defaults.useXDomain = true;
-    delete $httpProvider.defaults.headers.common['X-Requested-With'];
-  }])
 
-  .run(function($http){
-    $http.defaults.headers.common["Access-Control-Allow-Headers"] = 'Content-Type, Authorization, X-Requested-With';
-    $http.defaults.headers.common["Access-Control-Allow-Methods"] = 'OPTIONS,GET,POST,PUT,DELETE';
-    $http.defaults.headers.common["Access-Control-Allow-Origin"] = '*';
+  .config(function(ngGPlacesAPIProvider){
+    ngGPlacesAPIProvider.setDefaults({
+      radius:2500
+    });
   })
 
   .run(function ($rootScope, $location, Auth) {

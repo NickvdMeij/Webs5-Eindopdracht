@@ -30,9 +30,17 @@
         </div>
 
         <div class="form-group">
+            <label class="control-label">Waypoints</label>
+            <div class="controls" ng-repeat="waypoint in allWaypoints">
+                <input type="checkbox" ng-click="test(waypoint)"> {{waypoint.name}}
+            </div>
+        </div>
+
+        <div class="form-group">
             <div class="controls">
                 <button type="submit" class="btn btn-primary pull-right">Submit</button>
             </div>
         </div>
+
     </form>
 </section>
