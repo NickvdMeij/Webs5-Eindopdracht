@@ -4,7 +4,10 @@ angular.module('pubcrawlApp')
   .controller('PubCrawlsCtrl', function ($scope, PubCrawls, $location, ngGPlacesAPI, $routeParams, $rootScope, $http) {
 
     var array = [];
-    $scope.test = function(waypoint){
+
+    $scope.loadingWaypoints = false;
+
+    $scope.checkWaypoint = function(waypoint){
       var i = array.indexOf(waypoint);
       console.log(i);
       if (i != -1) {
@@ -12,12 +15,11 @@ angular.module('pubcrawlApp')
       }else{
         array.push(waypoint);
       }
-
-      console.log(array);
     };
 
 
     $scope.searchGoogle = function(){
+      $scope.loadingWaypoints = true;
       var city = null;
       for (var x = 0; x < $scope.places.length; x++) {
         if($scope.places[x].name === $scope.city) {
@@ -28,6 +30,7 @@ angular.module('pubcrawlApp')
         latitude: city.latitude,
         longitude: city.longitude
       }).then(function(data){
+        $scope.loadingWaypoints = false;
         $scope.allWaypoints = data;
       });
     }
@@ -105,17 +108,27 @@ angular.module('pubcrawlApp')
     };
 
     $scope.create = function() {
+      var waypoints = [];
+
+      for(var x = 0; x < array.length; x++){
+        waypoints.push({
+          reference: array[x].reference,
+          name: array[x].name,
+          vicinity: array[x].vicinity,
+          latitude: array[x].geometry.location.D,
+          longitude: array[x].geometry.location.k
+        })
+      }
+
       var pubcrawl = new PubCrawls({
         title: this.title,
         description: this.description,
-        starts: this.dt
+        starts: this.dt,
+        waypoints: waypoints
       });
       pubcrawl.$save(function(response) {
         $location.path("pubcrawls/" + response._id);
       });
-
-      this.title = "";
-      this.description = "";
     };
 
     $scope.remove = function(pubcrawl) {

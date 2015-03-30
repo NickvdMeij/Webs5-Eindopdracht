@@ -31,8 +31,11 @@
 
         <div class="form-group">
             <label class="control-label">Waypoints</label>
-            <div class="controls" ng-repeat="waypoint in allWaypoints">
-                <input type="checkbox" ng-click="test(waypoint)"> {{waypoint.name}}
+            <i ng-show="loadingWaypoints" class="fa fa-circle-o-notch fa-spin"></i>
+            <div ng-hide="loadingWaypoints">
+                <div class="controls" ng-repeat="waypoint in allWaypoints">
+                        <input type="checkbox" ng-click="checkWaypoint(waypoint)"> {{waypoint.name}}
+                </div>
             </div>
         </div>
 
