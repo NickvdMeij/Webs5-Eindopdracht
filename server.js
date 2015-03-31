@@ -12,14 +12,6 @@ var config = require('./lib/config/config');
 // Make an express app
 var app = express();
 
-// Heroku config only
-if(process.env.PORT) {
-  io.configure(function () { 
-    io.set("transports", ["xhr-polling"]); 
-    io.set("polling duration", 10); 
-  });  
-}
-
 // Connect to database
 var db = require('./lib/db/mongo').db;
 
