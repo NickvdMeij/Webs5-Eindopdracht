@@ -1,43 +1,55 @@
 'use strict';
 
 // Module dependencies.
-var express = require('express'),
-    http = require('http'),
-    passport = require('passport'),
-    path = require('path'),
-    fs = require('fs'),
-    mongoStore = require('connect-mongo')(express),
-    config = require('./lib/config/config');
+var express = require('express');
+var http = require('http');
+var passport = require('passport');
+var path = require('path');
+var fs = require('fs');
+var mongoStore = require('connect-mongo')(express);
+var config = require('./lib/config/config');
 
+// Make an express app
 var app = express();
+
+// Heroku config only
+if(process.env.PORT) {
+  io.configure(function () { 
+    io.set("transports", ["xhr-polling"]); 
+    io.set("polling duration", 10); 
+  });  
+}
 
 // Connect to database
 var db = require('./lib/db/mongo').db;
 
-// Bootstrap models
+// Bootstrap mongodb models
 var modelsPath = path.join(__dirname, 'lib/models');
 fs.readdirSync(modelsPath).forEach(function (file) {
   require(modelsPath + '/' + file);
 });
 
+// Require passport configs
 var pass = require('./lib/config/pass');
 
+// Apply front-end entrypoint
 app.use(express.static(path.join(__dirname, 'app')));
 app.use(express.errorHandler());
 app.set('views', __dirname + '/app/views');
 
+// Apply viewengine and logger
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 app.use(express.logger('dev'));
 
-// cookieParser should be above session
+// Apply cookie parser
 app.use(express.cookieParser());
 
-// bodyParser should be above methodOverride
+// Apply body parser and method override
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 
-// express/mongo session storage
+// Apply session
 app.use(express.session({
   secret: 'webs5eindopdracht',
   store: new mongoStore({
@@ -46,14 +58,14 @@ app.use(express.session({
   })
 }));
 
-// use passport session
+// Apply passport session
 app.use(passport.initialize());
 app.use(passport.session());
 
-//routes should be at the last
+// Apply Routes
 app.use(app.router);
 
-//Bootstrap routes
+// Bootstrap routes
 require('./lib/config/routes')(app);
 
 // Start server

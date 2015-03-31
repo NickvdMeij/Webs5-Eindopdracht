@@ -1,0 +1,9 @@
+<h1>Cities <small>All available cities where you can host a pubcrawl!</small></h1>
+<h2>Is your city not in this list? <small> Make an account and add your city to the list!</small></h2>
+<section ng-init="find()">
+	<input class="form-control" placeholder="Search your city..." ng-model="searchText" style="margin-bottom: 10px;">
+	<div class="well" ng-repeat="city in cities | filter:searchText" ng-show="!cities || cities.length">
+        <p>{{city.name}}</p>
+    </div>
+    <h1 ng-hide="!cities || cities.length">No cities yet.</h1>
+</section>

@@ -1,130 +1,60 @@
 'use strict';
 
 angular.module('pubcrawlApp')
-  .controller('PubCrawlsCtrl', function ($scope, PubCrawls, $location, ngGPlacesAPI, $routeParams, $rootScope, $http) {
+  .controller('PubCrawlsCtrl', function (
+      $scope,
+      PubCrawl,
+      City,
+      $location,
+      $routeParams,
+      $rootScope
+  ){
 
-    var array = [];
+    $scope.hasJoined = function(pubcrawl){
+      var userId = $rootScope.currentUser._id;
 
-    $scope.loadingWaypoints = false;
-
-    $scope.checkWaypoint = function(waypoint){
-      var i = array.indexOf(waypoint);
-      console.log(i);
-      if (i != -1) {
-        array.splice(i, 1)
-      }else{
-        array.push(waypoint);
-      }
-    };
-
-
-    $scope.searchGoogle = function(){
-      $scope.loadingWaypoints = true;
-      var city = null;
-      for (var x = 0; x < $scope.places.length; x++) {
-        if($scope.places[x].name === $scope.city) {
-          city = $scope.places[x];
+      for(var x = 0; x < pubcrawl.participants.length; x++){
+        if(pubcrawl.participants[x]._id === userId){
+          return true;
         }
       }
-      ngGPlacesAPI.nearbySearch({
-        latitude: city.latitude,
-        longitude: city.longitude
-      }).then(function(data){
-        $scope.loadingWaypoints = false;
-        $scope.allWaypoints = data;
+
+      return false;
+    };
+
+    $scope.joinPubcrawl = function(pubcrawl){
+      PubCrawl.addParticipant({
+        pubcrawlId: pubcrawl._id
+      },{
+        pubcrawlId: pubcrawl._id
+      },function(){
+        $scope.find();
       });
     }
 
-    $scope.places = [{
-      name: "Amsterdam",
-      latitude: "52.365013",
-      longitude: "4.902649"
-    },{
-      name: "Haarlem",
-      latitude: "52.384689",
-      longitude: "4.646530"
-    },{
-      name: "Den Haag",
-      latitude: "52.065736",
-      longitude: "4.308014"
-    },{
-      name: "Middelburg",
-      latitude: "51.494530",
-      longitude: "3.622742"
-    },{
-      name: "Den Bosch",
-      latitude: "51.697832",
-      longitude: "5.321503"
-    },{
-      name: "Maastricht",
-      latitude: "50.849036",
-      longitude: "5.703278"
-    },{
-      name: "Arnhem",
-      latitude: "51.983973",
-      longitude: "5.906224"
-    },{
-      name: "Zwolle",
-      latitude: "52.516683",
-      longitude: "6.083293"
-    },{
-      name: "Assen",
-      latitude: "52.988079",
-      longitude: "6.557465"
-    },{
-      name: "Groningen",
-      latitude: "53.215388",
-      longitude: "6.567078"
-    },{
-      name: "Leeuwarden",
-      latitude: "53.198501",
-      longitude: "5.798721"
-    },{
-      name: "Lelystad",
-      latitude: "52.519041",
-      longitude: "5.473938"
-    }]
+    $scope.leavePubcrawl = function(pubcrawl){
+      PubCrawl.removeParticipant({
+        pubcrawlId: pubcrawl._id
+      },{
+        pubcrawlId: pubcrawl._id
+      }, function(){
+        $scope.find();
+      });
+    }
 
-    $scope.today = function() {
-      $scope.dt = new Date();
-    };
-
-    $scope.today();
-
-    $scope.clear = function () {
-      $scope.dt = null;
-    };
-
-    $scope.open = function($event) {
-      $event.preventDefault();
-      $event.stopPropagation();
-
-      $scope.opened = true;
-    };
-
-    $scope.dateOptions = {
-      formatYear: 'yy',
-      startingDay: 1
+    $scope.loadCities = function() {
+      City.query(function(cities) {
+        $scope.cities = cities;
+      });
     };
 
     $scope.create = function() {
-      var waypoints = [];
 
-      for(var x = 0; x < array.length; x++){
-        waypoints.push({
-          reference: array[x].reference,
-          name: array[x].name,
-          vicinity: array[x].vicinity,
-          latitude: array[x].geometry.location.D,
-          longitude: array[x].geometry.location.k
-        })
-      }
-
-      var pubcrawl = new PubCrawls({
-        title: this.title,
-        description: this.description,
-        starts: this.dt,
-        waypoints: waypoints
+      var pubcrawl = new PubCrawl({
+        title: $scope.title,
+        description: $scope.description,
+        starts: $scope.dt,
+        city: $scope.selectedCity.originalObject._id
       });
       pubcrawl.$save(function(response) {
         $location.path("pubcrawls/" + response._id);
@@ -149,13 +79,13 @@ angular.module('pubcrawlApp')
     };
 
     $scope.find = function() {
-      PubCrawls.query(function(pubcrawls) {
+      PubCrawl.query(function(pubcrawls) {
         $scope.pubcrawls = pubcrawls;
       });
     };
 
     $scope.findOne = function() {
-      PubCrawls.get({
+      PubCrawl.get({
         pubcrawlId: $routeParams.pubcrawlId
       }, function(pubcrawl) {
         $scope.pubcrawl = pubcrawl;

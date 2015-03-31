@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('pubcrawlApp')
-  .factory('PubCrawls', function ($resource) {
-    return $resource('api/pubcrawls/:pubcrawlId', {
+  .factory('City', function ($resource) {
+    return $resource('api/cities/:cityId', {
       pubcrawlId: '@_id'
     }, {
       update: {

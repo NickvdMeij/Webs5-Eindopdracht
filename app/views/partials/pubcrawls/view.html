@@ -1,7 +1,28 @@
 <div class="well">
 	<section ng-init="findOne()">
-	    <h2>{{pubcrawl.title}} <a class="pull-right" ng-show="currentUser._id == pubcrawl.creator._id" href="/pubcrawls/{{pubcrawl._id}}/edit">Edit</a></h2>
-	    <p>{{pubcrawl.description}}</p>
-	    <p>{{pubcrawl.starts}}</p>
+	    <h2>Title: {{pubcrawl.title}} <a class="pull-right" ng-show="currentUser._id == pubcrawl.creator._id" href="/pubcrawls/{{pubcrawl._id}}/edit">Edit</a></h2>
+	    <p><b>Description: {{pubcrawl.description}}</b></p>
+	    <p>Starts: {{pubcrawl.starts}}</p>
+
+	    <h3>Participants</h3>
+    	<div class="row">
+	        <div class="col-md-6" ng-repeat="participant in pubcrawl.participants">
+	            <div class="well">
+	                <h4>{{participant.username}}</h4>
+	            </div>
+	        </div>
+	    </div>
+
+	    <div ng-controller="WaypointsCtrl" ng-init="find()">
+	    	<h3>Waypoints <a class="pull-right" ng-show="currentUser._id == pubcrawl.creator._id" href="/pubcrawls/{{pubcrawl._id}}/waypoints/manage">Manage Waypoints</a></h3>
+	    	<div class="row">
+		        <div class="col-md-6" ng-repeat="waypoint in pubcrawl.waypoints">
+		            <div class="well">
+		                <h4>{{waypoint.name}}</h4>
+		                <p>{{waypoint.vicinity}}</p>
+		            </div>
+		        </div>
+		    </div>
+	    </div>
 	</section>
 </div>

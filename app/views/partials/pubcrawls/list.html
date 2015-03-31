@@ -1,13 +1,16 @@
 <h1>Pubcrawls <small>Participate in pubcrawls all over The Netherlands!</small></h1>
 <section ng-init="find()">
-    <a ng-href="pubcrawls/{{pubcrawl._id}}" ng-repeat="pubcrawl in pubcrawls">
-        <div class="well">
-            <h2>Title: {{pubcrawl.title}}</h2>
-            <p>Description: {{pubcrawl.description}}</p>
-            <p>Starts at: {{pubcrawl.description}}</p>
-            <span class="badge badge-success">Posted {{pubcrawl.created | date:'medium'}}</span>
-            <div class="pull-right"><span class="badge badge-success">Posted by {{pubcrawl.creator.username}}</span></div>
-        </div>
-    </a>
+    <input class="form-control" placeholder="Search" ng-model="searchText" style="margin-bottom: 10px;">
+	<div class="col-md-6" ng-repeat="pubcrawl in pubcrawls | filter:searchText">
+		<div class="well">
+            <button class="btn btn-success pull-right" ng-hide="hasJoined(pubcrawl)" ng-click="joinPubcrawl(pubcrawl)">Join</button>
+            <button class="btn btn-danger pull-right" ng-show="hasJoined(pubcrawl)" ng-click="leavePubcrawl(pubcrawl)">Leave</button>
+            <h2>Title: <a ng-href="pubcrawls/{{pubcrawl._id}}">{{pubcrawl.title}}</a></h2>
+            <h3>City: {{pubcrawl.city.name}}</h3>
+            <p><b>Description: {{pubcrawl.description}}</b></p>
+            <p>Starts at: {{pubcrawl.starts}}</p>
+            <p>Created by {{pubcrawl.creator.username}}</p>
+		</div>
+    </div>
     <h1 ng-hide="!pubcrawls || pubcrawls.length">No pubcrawls yet.</h1>
 </section>

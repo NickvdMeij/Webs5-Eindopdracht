@@ -7,7 +7,9 @@ angular.module('pubcrawlApp', [
   'ngRoute',
   'http-auth-interceptor',
   'ui.bootstrap',
-  'ngGPlaces'
+  'ngGPlaces',
+  'ui.bootstrap.datetimepicker',
+  'angucomplete'
 ])
   .config(function ($routeProvider, $locationProvider) {
     $routeProvider
@@ -31,6 +33,18 @@ angular.module('pubcrawlApp', [
       .when('/pubcrawls/:pubcrawlId', {
         templateUrl: 'partials/pubcrawls/view.html',
         controller: 'PubCrawlsCtrl'
+      })
+      .when('/pubcrawls/:pubcrawlId/waypoints/manage', {
+        templateUrl: 'partials/pubcrawls/waypoints.html',
+        controller: 'WaypointsCtrl'
+      })
+      .when('/cities', {
+        templateUrl: 'partials/cities/list.html',
+        controller: 'CitiesCtrl'
+      })
+      .when('/cities/create', {
+        templateUrl: 'partials/cities/create.html',
+        controller: 'CitiesCtrl'
       })
       .when('/login', {
         templateUrl: 'partials/login.html',

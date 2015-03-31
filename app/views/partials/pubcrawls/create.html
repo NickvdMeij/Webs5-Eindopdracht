@@ -15,28 +15,25 @@
         <div class="form-group">
             <label class="control-label" for="starts">Starts</label>
             <p class="input-group">
-                <input type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2020-01-01'" datepicker-options="dateOptions" date-disabled="false" ng-required="true" close-text="Close" />
-              <span class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-              </span>
+                <div class="dropdown">
+                    <a class="dropdown-toggle" id="dropdown2" role="button" data-toggle="dropdown" data-target="#" href="#">
+                        <div class="input-group">
+                            <input type="text" class="form-control" data-ng-model="dt">
+                            <span class="input-group-addon">
+                              <i class="glyphicon glyphicon-calendar"></i>
+                            </span>
+                        </div>
+                    </a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                        <datetimepicker data-ng-model="dt" data-datetimepicker-config="{ dropdownSelector: '#dropdown2' }"/>
+                    </ul>
+                </div>
             </p>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" ng-init="loadCities()">
             <label class="control-label" for="city">City</label>
-            <select class="form-control" ng-model="city" ng-change="searchGoogle()">
-                <option ng-repeat="place in places">{{place.name}}</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label">Waypoints</label>
-            <i ng-show="loadingWaypoints" class="fa fa-circle-o-notch fa-spin"></i>
-            <div ng-hide="loadingWaypoints">
-                <div class="controls" ng-repeat="waypoint in allWaypoints">
-                        <input type="checkbox" ng-click="checkWaypoint(waypoint)"> {{waypoint.name}}
-                </div>
-            </div>
+            <div angucomplete id="cities" placeholder="Search Cities" pause="100" selectedobject="selectedCity" url="/api/cities/?name=" searchfields="name" titlefield="name" minlength="1" inputclass="form-control form-control-small"/> 
         </div>
 
         <div class="form-group">

@@ -10,8 +10,9 @@
     "angular-sanitize": "~1.2.0",
     "angular-route": "~1.2.0",
     "angular-http-auth": "*",
-    "angular-bootstrap": "~0.7.0",
+    "angular-bootstrap-datetimepicker": "latest",
     "angularjs-google-places": "~0.1.0",
-    "fontawesome": "~4.3.0"
+    "fontawesome": "~4.3.0",
+    "angucomplete": "*"
   }
 }

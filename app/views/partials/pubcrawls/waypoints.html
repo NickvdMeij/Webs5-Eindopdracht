@@ -1,0 +1,30 @@
+<section ng-init="find()">
+    <h2>Manage Waypoints <small>Add and remove waypoints for this pubcrawl</small></h2>
+    <h3>Current Waypoints</h3>
+
+    <div ng-hide="pubcrawl.waypoints && pubcrawl.waypoints.length !== 0">
+        No waypoints added to this pubcrawl
+    </div>
+    <div class="row">
+        <div class="col-md-6" ng-repeat="waypoint in pubcrawl.waypoints">
+            <div class="well">
+                <button ng-click="removeWaypoint(waypoint)" class="btn btn-danger pull-right">Remove Waypoint</button>
+                <h4>{{waypoint.name}}</h4>
+                <p>{{waypoint.vicinity}}</p>
+            </div>
+        </div>
+    </div>
+
+    <h3>Add Waypoints</h3>
+    <i ng-show="loadingWaypoints" class="fa fa-circle-o-notch fa-spin"></i>
+    <div class="row">
+    <div class="col-md-6" ng-repeat="newWaypoint in waypoints | filter:filterAlreadyAdded">
+        <div class="well">
+            <button ng-click="addWaypoint(newWaypoint)" class="btn btn-success pull-right">Add Waypoint</button>
+            <h4>{{newWaypoint.name}}</h4>
+            <p>{{newWaypoint.vicinity}}</p>
+        </div>
+    </div>
+    </div>
+
+</section>
