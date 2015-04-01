@@ -13,7 +13,9 @@ var config = require('./lib/config/config');
 var app = express();
 
 // Connect to database
-var db = require('./lib/db/mongo').db;
+if(process.env.NODE_ENV !== 'test'){
+	var db = require('./lib/db/mongo').db;
+}
 
 // Bootstrap mongodb models
 var modelsPath = path.join(__dirname, 'lib/models');
@@ -41,14 +43,19 @@ app.use(express.cookieParser());
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 
-// Apply session
-app.use(express.session({
-  secret: 'webs5eindopdracht',
-  store: new mongoStore({
-    url: config.db,
-    collection: 'sessions'
-  })
-}));
+
+if (process.env.NODE_ENV === 'test') {
+    app.use(express.session({ secret: 'testingsecretandshizzle' }));
+} else {
+    app.use(express.session({
+	  secret: 'webs5eindopdracht',
+	  store: new mongoStore({
+	    url: config.db,
+	    collection: 'sessions'
+	  })
+	}));
+}
+
 
 // Apply passport session
 app.use(passport.initialize());
@@ -59,6 +66,8 @@ app.use(app.router);
 
 // Bootstrap routes
 require('./lib/config/routes')(app);
+
+module.exports.getApp = app;
 
 // Start server
 var port = process.env.PORT || 3000;

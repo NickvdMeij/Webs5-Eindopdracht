@@ -10,7 +10,7 @@ angular.module('pubcrawlApp')
 
     $scope.create = function() {
       var city = new City({
-        name: $scope.longitude,
+        name: $scope.name,
         latitude: $scope.latitude,
         longitude: $scope.longitude
       });
