@@ -12,6 +12,14 @@ var config = require('./lib/config/config');
 // Make an express app
 var app = express();
 
+var app.use(function(req, res, next){
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+
+    next();
+});
+
 // Connect to database
 if(process.env.NODE_ENV !== 'test'){
 	var db = require('./lib/db/mongo').db;
